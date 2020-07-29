@@ -34,18 +34,20 @@ class _TextFieldExState extends State<AnswersList> {
   bool game_end = false;
   String gamestart = 'Start';
   int carouselid;
-  Duration _duration = Duration(seconds: 10);
+  Duration _duration = Duration(seconds: 20);
   DisplayResults results;
   var dataList = <String>[];
 
   _TextFieldExState(int i, DisplayResults display) {
     carouselid = i;
     results = display;
+    //int index = i - 1;
+    //dataList[index] = display.data;
   }
 
   //String _text = "initial";
 
-  int _start = 10;
+  int _start = 20;
   int _current = 0;
 
   @override
@@ -69,19 +71,19 @@ class _TextFieldExState extends State<AnswersList> {
               // call this method here to hide soft keyboard
 
               //FocusScope.of(context).unfocus();
-              print("game_end");
-              print(game_end);
+
               if (game_end) {
                 Navigator.push<Widget>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CarouselDisplay(
-                        //true, carouselid, results.ShowResults(carouselid)),
-                        true,
-                        carouselid,
-                        dataList[carouselid]),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CarouselDisplay(
+                            //true, carouselid, results.ShowResults(carouselid)),
+                            true,
+                            carouselid,
+                            results.ShowResults(carouselid)))
+                    //dataList[carouselid])
+
+                    );
               }
             },
             behavior: HitTestBehavior.translucent,
@@ -105,10 +107,12 @@ class _TextFieldExState extends State<AnswersList> {
                             game_end = true;
                             gameon = false;
                             print('carousel ' + carouselid.toString());
+                            //DisplayResults results= DisplayResults(displayText);
+                            //dataList.add(displayText);
                             results.SaveResults(carouselid, displayText);
-                            results.SetIndex = carouselid;
-                            results.SaveData = displayText;
-                            dataList[carouselid] = displayText;
+                            //results.SetIndex = carouselid;
+                            //results.SaveData = displayText;
+                            //dataList[carouselid] = displayText;
                             //print('Results are ' +
                             //    results.ShowResults(carouselid));
                           },
@@ -126,7 +130,7 @@ class _TextFieldExState extends State<AnswersList> {
                                 border: new OutlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.teal)),
-                                //hintText: 'Tell us about yourself',
+                                //hintText: 'hint costs xxx',
                                 enabled: gameon,
                                 helperText:
                                     'Press Submit after each answer. Tap for next Round',

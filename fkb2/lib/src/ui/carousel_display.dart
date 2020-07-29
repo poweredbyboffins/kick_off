@@ -12,16 +12,20 @@ class CarouselDisplay extends StatelessWidget {
 
   FlagsSet flags = new FlagsSet(true);
   int roundid = 1;
+  //
+  //DisplayResults display;
   DisplayResults display = DisplayResults();
+
   String currentresults;
   bool unhide = true;
 
-  CarouselDisplay(bool value, [int startid = 0, results]) {
+  CarouselDisplay(bool value, [int startid = 0, var results]) {
     print(flags.getdisableflag);
 
     flags.setdisableflag = value;
 
-    currentresults = results ??= " ";
+    currentresults = results ?? " ";
+    //display = results;
     print('CarouselDisplay ' + roundid.toString());
     roundid = startid;
   }
@@ -85,11 +89,6 @@ class CarouselDisplay extends StatelessWidget {
                               height: 400,
                               width: MediaQuery.of(context).size.width,
                               margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              //decoration: BoxDecoration(
-                              //  color: Colors.green,
-
-                              //),
-
                               child: GestureDetector(
                                   //child: Image.network(i, fit: BoxFit.fill),
                                   onTap: () {
@@ -99,9 +98,8 @@ class CarouselDisplay extends StatelessWidget {
                                   Navigator.push<Widget>(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          AnswersList(i, flags, display),
-                                    ),
+                                        builder: (context) =>
+                                            AnswersList(i, flags, display)),
                                   );
                                 }
                               })))
@@ -116,6 +114,7 @@ class CarouselDisplay extends StatelessWidget {
               enlargeCenterPage: false,
               viewportFraction: 0.9,
               aspectRatio: 3.0,
+              //onPageChanged:
               initialPage: roundid),
         ),
       ]);
