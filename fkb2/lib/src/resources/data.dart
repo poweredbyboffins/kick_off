@@ -1,7 +1,6 @@
 import 'dart:math';
 
-
-String response='''
+String response = '''
 [{"id":1,"question":"Winning Managers Premier League","answer":"Pep Guardiola"},
 {"id":1,"question":"Winning Managers Premier League","answer":"Antonio Conte"},
 {"id":1,"question":"Winning Managers Premier League","answer":"Claudio Ranieri"},
@@ -12,6 +11,7 @@ String response='''
 {"id":1,"question":"Winning Managers Premier League","answer":"Carlo Ancelotti"},
 {"id":1,"question":"Winning Managers Premier League","answer":"Arsène Wenger"},
 {"id":1,"question":"Winning Managers Premier League","answer":"Kenny Dalglish"},
+{"id":1,"question":"Winning Managers Premier League","answer":"Jurgen Klopp"},
 {"id":2,"question":"Balon Dor Winners","answer":"Lionel Messi"},
 {"id":2,"question":"Balon Dor Winners","answer":"Cristiano Ronaldo"},
 {"id":2,"question":"Balon Dor Winners","answer":"Michel Platini"},
@@ -37,6 +37,7 @@ String response='''
 {"id":2,"question":"Balon Dor Winners","answer":"George Best"},
 {"id":2,"question":"Balon Dor Winners","answer":"Allan Simonsen"},
 {"id":2,"question":"Balon Dor Winners","answer":"Ronaldinho"},
+{"id":2,"question":"Balon Dor Winners","answer":"Luka Modric"},
 {"id":3,"question":"World Cup Winners","answer":"Brazil"},
 {"id":3,"question":"World Cup Winners","answer":"Italy"},
 {"id":3,"question":"World Cup Winners","answer":"Germany"},
@@ -93,10 +94,8 @@ String response='''
 ]
 ''';
 
-
 //print ("chosenid is $chosenid");
 int min = 1;
 int max = 5;
 final rnd = new Random();
 final int chosenid = min + rnd.nextInt(max - min);
-

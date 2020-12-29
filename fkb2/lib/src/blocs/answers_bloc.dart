@@ -1,6 +1,6 @@
 import '../resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
-import '../models/item_model2.dart';
+import '../models/item_model3.dart';
 
 class AnswersBloc {
   final _repository = Repository();
@@ -9,7 +9,8 @@ class AnswersBloc {
   Observable<ItemsList> get allMovies => _answersFetcher.stream;
 
   fetchAllAnswers() async {
-    ItemsList itemModel = await _repository.fetchAllAnswers();
+    //ItemsList itemModel = await _repository.fetchAllAnswers();
+    ItemsList itemModel;
     _answersFetcher.sink.add(itemModel);
   }
 

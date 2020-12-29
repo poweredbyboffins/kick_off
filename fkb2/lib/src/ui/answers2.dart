@@ -5,25 +5,34 @@ import '../models/compare_guess.dart';
 //import 'package:quiver/async.dart';
 import '../models/flags_set.dart';
 //import 'package:timer_button/timer_button.dart';
-import 'carousel_display.dart';
+import 'data_display.dart';
 import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 import '../models/display_results.dart';
+import '../models/round.dart';
+import '../models/players.dart';
 
-class AnswersList extends StatefulWidget {
+class Answers2 extends StatefulWidget {
   @override
-  int carouselid;
+  int dataid;
   DisplayResults results;
+  Players matched;
+  Round round = Round();
 
-  AnswersList(int i, [FlagsSet flag, DisplayResults display]) {
-    flag.setdisableflag = false;
-    carouselid = i;
-    results = display;
+  Answers2() {
+    //flag.setdisableflag = false;
+    //dataid = round.getroundid();
+    /* Find Random Player */
+    matched = Players();
+    results = DisplayResults();
+    //DisplayResults results;
+
+    //_TextFieldExState createState() => new _TextFieldExState(round, results);
   }
 
-  _TextFieldExState createState() => new _TextFieldExState(carouselid, results);
+  _TextFieldExState createState() => new _TextFieldExState(round, results);
 }
 
-class _TextFieldExState extends State<AnswersList> {
+class _TextFieldExState extends State<Answers2> {
   TextEditingController _c;
   List<String> textarray = new List();
   String fmtString = "";
@@ -33,16 +42,15 @@ class _TextFieldExState extends State<AnswersList> {
   bool gameon = true;
   bool game_end = false;
   String gamestart = 'Start';
-  int carouselid;
-  Duration _duration = Duration(seconds: 10);
+  int dataid;
+  Duration _duration = Duration(seconds: 30);
   DisplayResults results;
+  Round round;
   var dataList = <String>[];
 
-  _TextFieldExState(int i, DisplayResults display) {
-    carouselid = i;
+  _TextFieldExState(Round round, DisplayResults display) {
+    dataid = round.getroundid();
     results = display;
-    //int index = i - 1;
-    //dataList[index] = display.data;
   }
 
   //String _text = "initial";
@@ -73,22 +81,18 @@ class _TextFieldExState extends State<AnswersList> {
               //FocusScope.of(context).unfocus();
 
               if (game_end) {
+                print('Data ' + dataid.toString());
+                //results.ShowResults(dataid);
                 Navigator.push<Widget>(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CarouselDisplay(
-                            //true, carouselid, results.ShowResults(carouselid)),
-                            true,
-                            carouselid,
-                            results.ShowResults(carouselid)))
-                    //dataList[carouselid])
-
-                    );
+                        builder: (context) => DataDisplay(
+                            true, dataid, results.ShowResults(dataid))));
               }
             },
             behavior: HitTestBehavior.translucent,
             child: FutureBuilder<List<Item>>(
-                future: guess.getnewdata(carouselid),
+                future: guess.getnewdata(dataid),
                 builder: (context, AsyncSnapshot<List<Item>> snapshot) {
                   if (snapshot.hasData)
                     return Container(
@@ -106,15 +110,7 @@ class _TextFieldExState extends State<AnswersList> {
                           onDone: () {
                             game_end = true;
                             gameon = false;
-                            print('carousel ' + carouselid.toString());
-                            //DisplayResults results= DisplayResults(displayText);
-                            //dataList.add(displayText);
-                            results.SaveResults(carouselid, displayText);
-                            //results.SetIndex = carouselid;
-                            //results.SaveData = displayText;
-                            //dataList[carouselid] = displayText;
-                            //print('Results are ' +
-                            //    results.ShowResults(carouselid));
+                            results.SaveResults(dataid, displayText);
                           },
                         ),
                         Text("$_current"),
@@ -156,33 +152,43 @@ class _TextFieldExState extends State<AnswersList> {
                           onPressed: () {
                             if (gameon) {
                               setState(() {
-                                //print ("button");
+                                /* check not existed before */
 
-                                textarray.add(_c.text);
                                 String ta;
-                                for (var i = 0; i < textarray.length; i++) {
-                                  ta = textarray[i];
-                                  fmtString = fmtString + ta;
-                                  String nl = '\n';
-                                  fmtString = fmtString + nl;
-                                }
+                                bool newvalue = true;
 
-                                int res =
-                                    guess.comparison(_c.text, snapshot.data);
-                                total = total + res;
-                                totstr = 'Total is ' + total.toString();
-                                displayText = displayText +
-                                    _c.text +
-                                    ' ' +
-                                    res.toString() +
-                                    '\n';
+                                /* Check if new value *** */
+
+                                newvalue =
+                                    results.newValueCheck(dataid, _c.text);
+
+                                print("guess status");
+                                print(newvalue);
+                                if (newvalue) {
+                                  //textarray.add(_c.text);
+
+                                  int res =
+                                      guess.comparison(_c.text, snapshot.data);
+                                  total = total + res;
+                                  totstr = 'Total is ' + total.toString();
+                                  displayText = displayText +
+                                      _c.text +
+                                      ' ' +
+                                      res.toString() +
+                                      '\n';
+                                }
                                 _c.text = "";
+                                newvalue = true;
                               });
                             }
                           },
                         ),
                       ],
                     ));
+                  else {
+                    return new CircularProgressIndicator();
+                    //print("data slow");
+                  }
                 })));
   }
 }

@@ -1,4 +1,4 @@
-package com.example.bloc_easy
+package com.example.kick_off
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
